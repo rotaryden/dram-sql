@@ -24,7 +24,7 @@ npm install dram-sql --save
 Usage
 -------------
 
-```SQL
+```javascript
     var sql = require('dram-sql');
     
     sql().selectFrom('table1').where().eq({id: 45, email: 'den@example.com'}).ok()
@@ -34,14 +34,10 @@ Usage
     sql().select('a', 'b', 'c').from('table1').where().eq({id: 45, email: 'den@example.com'}).ok()
 
     sql().select(['a', 'b', 'c']).where().eq({id: 45, email: 'den@example.com'}).ok()
-```
 
-```javascript
     var props = {id: 45, email: 'den@example.com'};
     var anotherProsp = {toselect: 88}; 
-```
 
-```SQL
     sql().select(anotherProps).from('table1').where().eq(props).ok()
     >>> SELECT toselect FROM table1 WHERE 
 ```
