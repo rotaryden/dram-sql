@@ -20,7 +20,7 @@ SQL.prototype.raw = function (raw) {
 SQL._raw = function(raw) {
     return function (optArg) {
         var t = this;
-        if (typeof optArg !== "string") throw Error("_raw: optional argument may be only string: " + optArg);
+        if (optArg && typeof optArg !== "string") throw Error("_raw: optional argument may be only string: " + optArg);
         t._sql += ' ' + raw + ' ' + (optArg ? (optArg + ' ') : '');
         return t;
     };
@@ -42,22 +42,22 @@ SQL.prototype.values = function (properties) {
     if (! _.isObject(properties)) throw Error("Invalid VALUES properties:" + properties);
     var keys =  _.keys(properties);
     t._sql += ' (' + keys.join(', ') + 
-        ') VALUES ( ' + keys.join(', :') + ' )'; 
+        ') VALUES ( :' + keys.join(', :') + ' )'; 
     return t;
 };
 
 //.select(['a', 'b'])
-SQL.prototype.select = function (properties) {
+SQL.prototype.select = function (columns) {
     var t = this;
-    if (arguments.length > 1){
-        properties = _.slice(arguments);
-    } else if (_.isObject(properties)) {
-        properties = _.values(properties);
+    if (typeof columns === "string"){
+        columns = _.slice(arguments);
+    } else if (_.isObject(columns)) {
+        columns = _.values(columns);
     }
-    if (! _.isArray(properties)) throw Error("Invalid SELECT properties:" + properties + 
+    if (! _.isArray(columns)) throw Error("Invalid SELECT columns:" + columns + 
         "\n Use selectFrom() for SELECT * FROM");
     
-    t._sql += ' SELECT ' + properties.join(', ') + ' '; 
+    t._sql += ' SELECT ' + columns.join(', ') + ' '; 
             
     return t;
 };
@@ -96,7 +96,7 @@ SQL._makeJoin = function(join) {
         if (tables) {
             if (_.isObject(tables)){
                 tables = _.values(tables);
-            } else if (arguments.length > 1){
+            } else if (typeof tables === 'string'){
                 tables = _.slice(arguments);
             }
             if (! _.isArray(tables)) throw Error("Invalid JOIN tables:" + tables);
@@ -124,9 +124,13 @@ SQL._makeOp = function (op) {
      */
     return function (properties, joiner) {
         var t = this;
-        if (! _.isObject(properties)) throw Error("Invalid " + op + " properties:" + properties);
-        t._sql += ' (' +  _.map(properties, function(value, key) {
-          return key + ' ' + op + ' :' + key;
+        if (_.isObject(properties)){
+            properties = _.keys(properties);
+        } else if (! _.isArray(properties)){
+            throw Error("Invalid " + op + " properties (should be Object or Array):" + properties);
+        }
+        t._sql += ' (' +  _.map(properties, function(name) {
+            return name + ' ' + op + ' :' + name;
         }).join(' ' + joiner + ' ') + ') ';
         return t;
     };
