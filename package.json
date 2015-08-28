@@ -1,0 +1,36 @@
+{
+  "name": "dram-sql",
+  "version": "0.1.0",
+  "description": "Dramatically simple SQL builder for Node.js",
+  "license": "MIT",
+  "main": "index.js",
+  "keywords": [
+    "SQL",
+    "builder",
+    "constructor",
+    "query"
+  ],
+  "author": {
+    "name": "Denis Volokhovski",
+    "email": "altitudebreath@gmail.com"
+  },
+  "contributors": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/altitudebreath/dram-sql.git"
+  },
+  "scripts": {},
+  "bugs": {
+    "url": "https://github.com/altitudebreath/dram-sql/issues"
+  },
+  "maintainers": [
+    {
+      "name": "altitudebreath",
+      "email": "altitudebreath@gmail.com"
+    }
+  ],
+  "directories": {},
+  "dependencies": {
+    "lodash": "^3.10.1"
+  }
+}
