@@ -1,6 +1,6 @@
 {
   "name": "dram-sql",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Dramatically simple SQL builder for Node.js",
   "license": "MIT",
   "main": "index.js",
@@ -31,6 +31,6 @@
   ],
   "directories": {},
   "dependencies": {
-    "lodash": "^3.10.1"
+    "lodash": "^4.8.2"
   }
 }
